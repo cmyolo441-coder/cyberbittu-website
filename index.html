@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="CyberBittu provides penetration testing, VAPT, security audits, incident response, network security and awareness training for growing businesses." />
+  <link rel="icon" href="data:," />
+  <title>CyberBittu — Cybersecurity Services</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #07100d;
+      --bg-deep: #040907;
+      --surface: #0d1915;
+      --surface-2: #11201a;
+      --text: #edfff6;
+      --muted: #9ab9ac;
+      --line: #1d4033;
+      --line-strong: #34715a;
+      --green: #00ee80;
+      --green-bright: #45ffa7;
+      --cyan: #00cfe8;
+      --ink: #020604;
+      --nav-bg: rgba(7,16,13,.88);
+      --shadow: 0 22px 70px rgba(0,0,0,.32);
+      --glow: rgba(0,238,128,.14);
+      --danger: #ff6675;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #040807;
+        --bg-deep: #020403;
+        --surface: #09110e;
+        --surface-2: #0c1713;
+        --text: #e9fff5;
+        --muted: #94aea3;
+        --line: #19382d;
+        --line-strong: #2e6652;
+        --green: #00ff88;
+        --green-bright: #46ffa8;
+        --cyan: #00e5ff;
+        --ink: #020604;
+        --nav-bg: rgba(4,8,7,.86);
+        --shadow: 0 22px 70px rgba(0,0,0,.38);
+        --glow: rgba(0,255,136,.13);
+        --danger: #ff6675;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .34;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, #000, transparent 58%);
+      z-index: -2;
+    }
+    a { color: inherit; }
+    button, input, textarea { font: inherit; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    .skip-link {
+      position: fixed; left: 16px; top: -100px; z-index: 100;
+      background: var(--green); color: var(--ink); padding: 10px 14px; font-weight: 800;
+    }
+    .skip-link:focus { top: 16px; }
+    .shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+    .site-nav {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none; font-size: 1rem; font-weight: 800; letter-spacing: -.02em;
+    }
+    .brand-mark { width: 29px; height: 32px; color: var(--green); flex: none; }
+    .brand span span { color: var(--green); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: .91rem; font-weight: 650; }
+    .nav-links a:not(.button):hover { color: var(--green); }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 48px; padding: 0 20px;
+      border: 1px solid var(--green); border-radius: 4px;
+      background: var(--green); color: var(--ink); text-decoration: none;
+      font-weight: 850; font-size: .9rem; letter-spacing: .01em;
+      cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); box-shadow: 7px 7px 0 var(--line-strong); }
+    .button.secondary { background: transparent; color: var(--text); border-color: var(--line-strong); }
+    .button.secondary:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 7px 7px 0 var(--line); }
+    .nav-cta { min-height: 40px; padding-inline: 15px; }
+    .menu-button {
+      display: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line);
+      background: var(--surface); color: var(--text); cursor: pointer;
+    }
+    .menu-button svg { width: 22px; height: 22px; }
+
+    .hero { position: relative; padding: clamp(72px, 10vw, 132px) 0 58px; isolation: isolate; }
+    .hero::after {
+      content: ""; position: absolute; width: 620px; height: 620px; right: -260px; top: -190px;
+      background: radial-gradient(circle, var(--glow), transparent 68%); z-index: -1; pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(48px, 7vw, 90px); }
+    .eyebrow { display: flex; align-items: center; gap: 11px; margin: 0 0 22px; color: var(--green); font: 700 .78rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+    h1, h2, h3 { margin-top: 0; line-height: 1.08; letter-spacing: -.04em; }
+    h1 { max-width: 720px; margin-bottom: 24px; font-size: clamp(3.2rem, 7vw, 6.7rem); font-weight: 900; }
+    h1 .outline { color: transparent; -webkit-text-stroke: 1.5px var(--green); }
+    .hero-copy > p:not(.eyebrow) { max-width: 640px; margin: 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.28rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
+
+    .terminal-wrap { position: relative; }
+    .terminal-wrap::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--green); opacity: .36; }
+    .terminal {
+      position: relative; min-height: 392px; border: 1px solid var(--line-strong); background: var(--ink); color: #d9ffeb;
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .terminal::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(255,255,255,.025) 4px);
+    }
+    .terminal-head { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 0 16px; border-bottom: 1px solid #183a2d; background: #07100c; }
+    .terminal-dots { display: flex; gap: 7px; }
+    .terminal-dots i { width: 8px; height: 8px; border-radius: 50%; background: #264637; }
+    .terminal-dots i:first-child { background: var(--danger); }
+    .terminal-dots i:nth-child(2) { background: #ffd166; }
+    .terminal-dots i:last-child { background: #00ff88; }
+    .terminal-title { color: #91bba8; font-size: .69rem; letter-spacing: .1em; text-transform: uppercase; }
+    .terminal-body { padding: 25px 22px 30px; font-size: .78rem; line-height: 1.8; }
+    .terminal-body p { margin: 0 0 5px; white-space: pre-wrap; }
+    .term-label { color: #00e5ff; }
+    .term-command { color: #00ff88; }
+    .term-muted { color: #779789; }
+    .term-ok { color: #77ffc0; }
+    .terminal-output { min-height: 215px; }
+    .cursor { display: inline-block; width: 8px; height: 1.1em; margin-left: 4px; vertical-align: -2px; background: #00ff88; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .signal-row { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 72px; border: 1px solid var(--line); background: var(--surface); }
+    .signal { min-height: 112px; padding: 24px 26px; border-right: 1px solid var(--line); }
+    .signal:last-child { border-right: 0; }
+    .signal strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 1rem; }
+    .signal span { color: var(--muted); font-size: .85rem; }
+    .signal b { color: var(--green); margin-right: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    section { padding: 112px 0; }
+    .section-head { display: grid; grid-template-columns: .75fr 1.25fr; gap: 54px; align-items: end; margin-bottom: 52px; }
+    .section-head h2 { margin-bottom: 0; font-size: clamp(2.4rem, 5vw, 4.7rem); }
+    .section-head p { max-width: 580px; margin: 0 0 4px auto; color: var(--muted); font-size: 1.05rem; }
+    .kicker { display: block; margin-bottom: 15px; color: var(--green); font: 750 .75rem/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .13em; text-transform: uppercase; }
+
+    .services { border-top: 1px solid var(--line); }
+    .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .service-card {
+      min-height: 280px; padding: 30px 28px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface);
+      transition: background .25s ease, color .25s ease;
+    }
+    .service-card:hover { background: var(--ink); color: #edfff6; }
+    .service-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 42px; border: 1px solid var(--line-strong); color: var(--green); }
+    .service-icon svg { width: 23px; height: 23px; }
+    .service-card h3 { margin-bottom: 13px; font-size: 1.22rem; letter-spacing: -.02em; }
+    .service-card p { margin: 0; color: var(--muted); font-size: .91rem; }
+    .service-card:hover p { color: #99bbae; }
+
+    .why { background: var(--ink); color: #edfff6; }
+    .why .kicker { color: #00ff88; }
+    .why .section-head p { color: #92ac9f; }
+    .why-list { counter-reset: why; display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; border-top: 1px solid #183a2d; }
+    .why-item { counter-increment: why; display: grid; grid-template-columns: 42px 1fr; gap: 20px; padding: 32px 0; border-bottom: 1px solid #183a2d; }
+    .why-item::before { content: "0" counter(why); color: #00e5ff; font: 700 .77rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding-top: 5px; }
+    .why-item h3 { margin-bottom: 8px; font-size: 1.25rem; }
+    .why-item p { margin: 0; color: #92ac9f; font-size: .91rem; }
+
+    .process-list { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .process-step { position: relative; padding: 30px 30px 0 0; }
+    .process-step:not(:last-child)::after { content: ""; position: absolute; top: 52px; left: 68px; right: 0; height: 1px; background: var(--line-strong); }
+    .step-no { position: relative; z-index: 2; display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 28px; border: 1px solid var(--green); background: var(--bg); color: var(--green); font: 800 .77rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .process-step h3 { margin-bottom: 11px; font-size: 1.2rem; }
+    .process-step p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .contact { border-top: 1px solid var(--line); }
+    .contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(44px, 8vw, 110px); align-items: start; }
+    .contact-copy h2 { font-size: clamp(2.7rem, 6vw, 5.6rem); }
+    .contact-copy > p { max-width: 470px; color: var(--muted); }
+    .email-link { display: inline-block; margin: 30px 0 18px; color: var(--green); font: 750 clamp(.98rem, 2vw, 1.28rem) ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-underline-offset: 6px; }
+    .reply-note { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .86rem; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green); }
+    .contact-form { padding: 34px; border: 1px solid var(--line-strong); background: var(--surface); box-shadow: var(--shadow); }
+    .field { margin-bottom: 21px; }
+    .field label { display: block; margin-bottom: 8px; color: var(--text); font-size: .82rem; font-weight: 750; }
+    .field input, .field textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 0; background: var(--bg); color: var(--text); padding: 14px 15px;
+    }
+    .field input { min-height: 49px; }
+    .field textarea { min-height: 145px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--green); outline: 1px solid var(--green); }
+    .form-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .form-foot small { color: var(--muted); font-size: .75rem; }
+    .form-status { min-height: 25px; margin: 15px 0 0; color: var(--cyan); font-size: .8rem; }
+
+    footer { border-top: 1px solid var(--line); }
+    .footer-inner { min-height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .8rem; }
+    .footer-inner a { color: var(--muted); text-decoration: none; }
+    .footer-inner a:hover { color: var(--green); }
+
+    .reveal { opacity: 1; transform: none; transition: opacity .65s ease, transform .65s ease; }
+    .motion-ready .reveal:not(.visible) { opacity: .92; transform: translateY(6px); }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        position: absolute; left: 0; right: 0; top: 72px; display: none; padding: 24px 20px;
+        background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
+      }
+      .nav-links.open { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+      .nav-links a:not(.button) { padding: 12px 6px; }
+      .nav-cta { margin-top: 8px; }
+      .menu-button { display: grid; place-items: center; }
+      .hero-grid, .contact-grid { grid-template-columns: 1fr; }
+      .terminal-wrap { max-width: 680px; }
+      .section-head { grid-template-columns: 1fr; gap: 20px; }
+      .section-head p { margin-left: 0; }
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-list { grid-template-columns: repeat(2, 1fr); gap: 42px 0; }
+      .process-step:nth-child(2)::after { display: none; }
+    }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 28px, 1160px); }
+      .brand-mark { width: 25px; height: 28px; }
+      .hero { padding-top: 64px; }
+      h1 { font-size: clamp(3rem, 15vw, 4.5rem); }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .button { width: 100%; }
+      .terminal { min-height: 360px; }
+      .terminal-wrap::before { inset: 10px -8px -10px 8px; }
+      .terminal-body { padding-inline: 17px; font-size: .72rem; }
+      .signal-row { grid-template-columns: 1fr; margin-top: 56px; }
+      .signal { border-right: 0; border-bottom: 1px solid var(--line); min-height: auto; }
+      .signal:last-child { border-bottom: 0; }
+      section { padding: 82px 0; }
+      .service-grid, .why-list, .process-list { grid-template-columns: 1fr; }
+      .service-card { min-height: auto; }
+      .service-icon { margin-bottom: 28px; }
+      .why-list { gap: 0; }
+      .process-step { padding-right: 0; display: grid; grid-template-columns: 46px 1fr; gap: 0 20px; }
+      .process-step:not(:last-child)::after { display: none; }
+      .process-step .step-no { grid-row: 1 / span 2; }
+      .process-step h3, .process-step p { grid-column: 2; }
+      .contact-form { padding: 24px 18px; }
+      .form-foot { flex-direction: column; align-items: stretch; }
+      .footer-inner { padding: 24px 0; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="shell nav-inner">
+      <a class="brand" href="#main" aria-label="CyberBittu home">
+        <svg class="brand-mark" viewBox="0 0 32 36" fill="none" aria-hidden="true"><path d="M16 2 29 7v9c0 8.2-4.7 14.8-13 18C7.7 30.8 3 24.2 3 16V7l13-5Z" stroke="currentColor" stroke-width="2"/><path d="m11 13-3 3 3 3m10-6 3 3-3 3m-7 3 4-12" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+        <span>Cyber<span>Bittu</span></span>
+      </a>
+      <button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a href="#services">Services</a>
+        <a href="#why-us">Why Us</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+        <a class="button nav-cta" href="#contact">Get a Security Audit</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <div class="shell">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Offensive security. Defensive clarity.</p>
+            <h1>Your Business, <span class="outline">Bulletproof.</span></h1>
+            <p>We find and help fix security weaknesses before attackers can exploit them—protecting your systems, your data, and the trust your business has earned.</p>
+            <div class="hero-actions">
+              <a class="button" href="#contact">Get Free Consultation <span aria-hidden="true">→</span></a>
+              <a class="button secondary" href="#services">View Services</a>
+            </div>
+          </div>
+
+          <div class="terminal-wrap" aria-label="Illustrative security scan terminal">
+            <div class="terminal">
+              <div class="terminal-head">
+                <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="terminal-title mono">demo scan // sandbox</span>
+              </div>
+              <div class="terminal-body mono">
+                <p><span class="term-label">analyst@cyberbittu</span>:<span class="term-command">~$</span> perimeter-check --scope approved</p>
+                <div class="terminal-output" id="terminal-output" aria-live="off"></div>
+                <p><span class="term-label">analyst@cyberbittu</span>:<span class="term-command">~$</span><span class="cursor" aria-hidden="true"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-row reveal" aria-label="Service highlights">
+          <div class="signal"><strong><b>01</b>24/7 Monitoring</strong><span>Security visibility that does not clock out.</span></div>
+          <div class="signal"><strong><b>02</b>Human + Machine</strong><span>Manual expertise backed by proven tooling.</span></div>
+          <div class="signal"><strong><b>03</b>Actionable Reports</strong><span>Clear priorities. Practical fixes. No noise.</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="services" id="services">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><span class="kicker">01 / Services</span><h2>Find risk.<br>Fix it fast.</h2></div>
+          <p>From a targeted test to a complete security review, each engagement is scoped around the risks that matter to your business—not a generic checklist.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8M10 5H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-5"/></svg></div><h3>Penetration Testing</h3><p>Simulated real-world attacks uncover exploitable weaknesses in your web apps, APIs, and infrastructure before criminals do.</p></article>
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v3m0 3h.01"/></svg></div><h3>Vulnerability Assessment (VAPT)</h3><p>Systematic scanning and manual verification across your network and applications, with each vulnerability ranked by real risk.</p></article>
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.7 8.5 7 10 4.3-1.5 7-5.3 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Security Audit &amp; Compliance</h3><p>Thorough audits of policies, configurations, and controls help you meet standards and close security gaps.</p></article>
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8"/><circle cx="12" cy="12" r="5"/></svg></div><h3>Incident Response</h3><p>Rapid containment, investigation, and recovery when something goes wrong—so you can get back to business fast.</p></article>
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5v4M7.2 16.5 12 11.5l4.8 5"/></svg></div><h3>Network Security</h3><p>Firewall reviews, segmentation checks, and hardening for the internal and cloud networks your business depends on.</p></article>
+          <article class="service-card reveal"><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 19V5l8-2 8 2v14l-8 2-8-2Z"/><path d="M8 8h8M8 12h5M8 16h3"/></svg></div><h3>Security Awareness Training</h3><p>Practical training gives your team the confidence to spot phishing and social-engineering attacks before they land.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="why" id="why-us">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><span class="kicker">02 / Why CyberBittu</span><h2>Signal over noise.</h2></div>
+          <p>You do not need a stack of scanner output. You need an experienced security partner who can explain what matters, why it matters, and what to do next.</p>
+        </div>
+        <div class="why-list">
+          <article class="why-item reveal"><div><h3>Certified Experts</h3><p>Experienced security professionals investigate your risk—not just scanner output.</p></div></article>
+          <article class="why-item reveal"><div><h3>Manual + Automated Testing</h3><p>Tools find the easy bugs. Human judgment finds the dangerous ones hidden between the lines.</p></div></article>
+          <article class="why-item reveal"><div><h3>Clear, Actionable Reports</h3><p>Every finding includes plain-language business impact, technical evidence, and step-by-step fix guidance.</p></div></article>
+          <article class="why-item reveal"><div><h3>Affordable for Small Business</h3><p>Enterprise-grade testing, scoped and priced for startups and growing companies.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="shell">
+        <div class="section-head reveal">
+          <div><span class="kicker">03 / Process</span><h2>A clear path<br>to safer systems.</h2></div>
+          <p>Every engagement follows a controlled, transparent process. You know what is being tested, when it is happening, and exactly what comes next.</p>
+        </div>
+        <div class="process-list">
+          <article class="process-step reveal"><div class="step-no">01</div><h3>Discovery</h3><p>We map your assets and agree on scope, goals, timing, and rules of engagement.</p></article>
+          <article class="process-step reveal"><div class="step-no">02</div><h3>Assessment</h3><p>Automated scans are combined with hands-on manual testing by security professionals.</p></article>
+          <article class="process-step reveal"><div class="step-no">03</div><h3>Reporting</h3><p>You receive a clear report with severity ratings, evidence, business impact, and fix guidance.</p></article>
+          <article class="process-step reveal"><div class="step-no">04</div><h3>Remediation Support</h3><p>We help your team fix issues, answer questions, and verify the fixes.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="shell contact-grid">
+        <div class="contact-copy reveal">
+          <span class="kicker">04 / Contact</span>
+          <h2>Let’s close the gaps.</h2>
+          <p>Tell us what you need to protect, what is keeping you up at night, or where you want an independent security opinion.</p>
+          <a class="email-link" href="mailto:contact@cyberbittu.bond">contact@cyberbittu.bond</a>
+          <div class="reply-note"><span class="status-dot" aria-hidden="true"></span>We reply within 24 hours.</div>
+        </div>
+
+        <form class="contact-form reveal" id="contact-form">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="message">How can we help?</label><textarea id="message" name="message" required></textarea></div>
+          <div class="form-foot">
+            <small>Opens your email app with a prepared message.</small>
+            <button class="button" type="submit">Prepare Email <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <span>© 2026 CyberBittu</span>
+      <a href="mailto:contact@cyberbittu.bond">cyberbittu.bond</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var menuButton = document.querySelector('.menu-button');
+      var navLinks = document.getElementById('nav-links');
+      menuButton.addEventListener('click', function () {
+        var open = navLinks.classList.toggle('open');
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+      });
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          navLinks.classList.remove('open');
+          menuButton.setAttribute('aria-expanded', 'false');
+          menuButton.setAttribute('aria-label', 'Open navigation menu');
+        });
+      });
+      document.addEventListener('click', function (event) {
+        if (!event.target.closest('.nav-inner')) {
+          navLinks.classList.remove('open');
+          menuButton.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      var lines = [
+        ['muted', '[+] Establishing approved test boundary...'],
+        ['ok',    '[✓] Scope locked: public-facing assets'],
+        ['muted', '[+] Checking exposure and access controls...'],
+        ['ok',    '[✓] Manual verification queued'],
+        ['muted', '[+] Mapping findings to business risk...'],
+        ['ok',    '[✓] Remediation plan ready'],
+        ['label', '[SECURE] Report prepared for review']
+      ];
+      var output = document.getElementById('terminal-output');
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function showAll() {
+        lines.forEach(function (entry) {
+          var p = document.createElement('p');
+          p.className = 'term-' + entry[0];
+          p.textContent = entry[1];
+          output.appendChild(p);
+        });
+      }
+      if (reduced) { showAll(); }
+      else {
+        lines.forEach(function (entry, index) {
+          window.setTimeout(function () {
+            var p = document.createElement('p');
+            p.className = 'term-' + entry[0];
+            p.textContent = entry[1];
+            output.appendChild(p);
+          }, 520 + index * 520);
+        });
+      }
+
+      var revealItems = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reduced) {
+        document.body.classList.add('motion-ready');
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealItems.forEach(function (item) { observer.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add('visible'); });
+      }
+
+      var form = document.getElementById('contact-form');
+      var status = document.getElementById('form-status');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var message = document.getElementById('message').value.trim();
+        var subject = encodeURIComponent('Security consultation request from ' + name);
+        var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nProject / concern:\n' + message);
+        status.textContent = 'Opening your email app…';
+        window.location.href = 'mailto:contact@cyberbittu.bond?subject=' + subject + '&body=' + body;
+      });
+    }());
+  </script>
+</body>
+</html>
